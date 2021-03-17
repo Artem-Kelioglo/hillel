@@ -1,0 +1,23 @@
+.block {
+  position: fixed;
+  border: 2px solid black;
+  width: 40px;
+  height: 300px;
+  left: 100px;
+  top: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.block2 {
+  border: initial;
+  height: 0px;
+  background-color: green;
+}
+
+.block3 {
+  border: initial;
+  height: 0px;
+  background-color: red;
+}
