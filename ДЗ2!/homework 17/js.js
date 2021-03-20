@@ -3,11 +3,11 @@ let in2 = document.querySelector("#input2")
 let red = document.querySelector('#redblock')
 let green = document.querySelector('#greenblock')
 
-in1.onchange = function () {
+in1.oninput  = function () {
   in2.value = in1.value
   good(in2)
 }
-in2.onchange = function () {
+in2.oninput  = function () {
   in1.value = in2.value
   good(in1)
 }

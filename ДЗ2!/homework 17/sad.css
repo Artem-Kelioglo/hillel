@@ -7,7 +7,7 @@
   border: 1px solid black;
   width: 50px;
   height: 200px;
-  zoom: 3;
+  /* zoom: 3; */
   position: relative;
 }
 
