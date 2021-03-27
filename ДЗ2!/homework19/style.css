@@ -1,6 +1,12 @@
-td{
+td {
   border: 1px solid black;
+  
 }
-textarea{
-  width: 100%;
+
+textarea {
+  width: 98%;
+}
+
+button {
+  width: 50%;
 }
