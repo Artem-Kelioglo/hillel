@@ -25,7 +25,51 @@ actions = {
     console.log('3')
   }
 }
-//----------------1 вариант-----------//
+
+//----------------1вариант-более правельный-------------//
+
+
+window.addEventListener('contextmenu', function (event) {
+  event.preventDefault();
+  removeContextMenu(false);
+});
+
+window.addEventListener('click', function () {
+  removeContextMenu(true);
+})
+
+function createMenu(model) {
+  let ul = document.createElement('ul');
+  ul.className = 'ul__contextmenu';
+  let items = model.items;
+
+  for (let i = 0; i < items.length; i++) {
+    let {
+      handler
+    } = items[i];
+    let li = document.createElement('li');
+    li.className = 'li__contextmenu';
+    li.innerHTML = items[i].title
+;
+    li.onclick = function () {
+      actions[handler]();
+    }
+
+    ul.append(li);
+  }
+  ul.hidden = true;
+  document.body.append(ul);
+}
+createMenu(data);
+
+function removeContextMenu(bool) {
+  let ul = document.querySelector('.ul__contextmenu');
+  ul.style.top = event.clientY + 'px';
+  ul.style.left = event.clientX + 'px';
+  document.querySelector('.ul__contextmenu').hidden = bool;
+}
+
+//----------------2 вариант-----------//
 
 
 // window.addEventListener('contextmenu', function (event) {
@@ -69,49 +113,4 @@ actions = {
 //     document.querySelector('.ul__contextmenu').remove()
 //   }
 
-// }
-
-
-
-//----------------2вариант-------------//
-
-
-// window.addEventListener('contextmenu', function (event) {
-//   event.preventDefault()
-//   removeContextMenu(false)
-// });
-
-// window.addEventListener('click', function () {
-//   removeContextMenu(true)
-// })
-
-// function createMenu(model) {
-//   let ul = document.createElement('ul')
-//   ul.className = 'ul__contextmenu'
-//   let items = model.items
-
-//   for (let i = 0; i < items.length; i++) {
-//     let {
-//       handler
-//     } = items[i]
-//     let li = document.createElement('li')
-//     li.className = 'li__contextmenu'
-//     li.innerHTML = items[i].title
-
-//     li.onclick = function () {
-//       actions[handler]()
-//     }
-
-//     ul.append(li)
-//   }
-//   ul.hidden = true
-//   document.body.append(ul)
-// }
-// createMenu(data)
-
-// function removeContextMenu(bool) {
-//   let ul = document.querySelector('.ul__contextmenu')
-//   ul.style.top = event.clientY + 'px'
-//   ul.style.left = event.clientX + 'px'
-//   document.querySelector('.ul__contextmenu').hidden = bool
 // }
