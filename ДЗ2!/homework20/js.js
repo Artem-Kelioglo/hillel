@@ -10,7 +10,7 @@ data = {
     },
     {
       title: 'title 3',
-      handler: 'actionExit' 
+      handler: 'actionExit'
     }
   ]
 }
@@ -25,47 +25,93 @@ actions = {
     console.log('3')
   }
 }
-
-window.addEventListener('contextmenu', function (event) {
-  event.preventDefault()
-  removeContextMenu()
-  createMenu(data)
-
-});
+//----------------1 вариант-----------//
 
 
-function createMenu(model) {
-  let ul = document.createElement('ul')
-  ul.className = 'ul__contextmenu'
-  ul.style.top = event.clientY + 'px'
-  ul.style.left = event.clientX + 'px'
-  let items = model.items
+// window.addEventListener('contextmenu', function (event) {
+//   event.preventDefault()
+//   removeContextMenu()
+//   createMenu(data)
 
-  for (let i = 0; i < items.length; i++) {
-    let {
-      handler
-    } = items[i]
-    let li = document.createElement('li')
-    li.className = 'li__contextmenu'
-    li.innerHTML = items[i].title
+// });
 
-    li.onclick = function () {
-      actions[handler]()
-    }
+// window.addEventListener('click', function () {
+//   removeContextMenu()
+// })
 
-    ul.append(li)
-  }
+// function createMenu(model) {
+//   let ul = document.createElement('ul')
+//   ul.className = 'ul__contextmenu'
+//   ul.style.top = event.clientY + 'px'
+//   ul.style.left = event.clientX + 'px'
+//   let items = model.items
 
-  document.body.append(ul)
-}
+//   for (let i = 0; i < items.length; i++) {
+//     let {
+//       handler
+//     } = items[i]
+//     let li = document.createElement('li')
+//     li.className = 'li__contextmenu'
+//     li.innerHTML = items[i].title
 
-function removeContextMenu() {
-  if (document.querySelector('.ul__contextmenu')) {
-    document.querySelector('.ul__contextmenu').remove()
-  }
+//     li.onclick = function () {
+//       actions[handler]()
+//     }
 
-}
+//     ul.append(li)
+//   }
 
-window.addEventListener('click', function () {
-  removeContextMenu()
-})
+//   document.body.append(ul)
+// }
+
+// function removeContextMenu() {
+//   if (document.querySelector('.ul__contextmenu')) {
+//     document.querySelector('.ul__contextmenu').remove()
+//   }
+
+// }
+
+
+
+//----------------2вариант-------------//
+
+
+// window.addEventListener('contextmenu', function (event) {
+//   event.preventDefault()
+//   removeContextMenu(false)
+// });
+
+// window.addEventListener('click', function () {
+//   removeContextMenu(true)
+// })
+
+// function createMenu(model) {
+//   let ul = document.createElement('ul')
+//   ul.className = 'ul__contextmenu'
+//   let items = model.items
+
+//   for (let i = 0; i < items.length; i++) {
+//     let {
+//       handler
+//     } = items[i]
+//     let li = document.createElement('li')
+//     li.className = 'li__contextmenu'
+//     li.innerHTML = items[i].title
+
+//     li.onclick = function () {
+//       actions[handler]()
+//     }
+
+//     ul.append(li)
+//   }
+//   ul.hidden = true
+//   document.body.append(ul)
+// }
+// createMenu(data)
+
+// function removeContextMenu(bool) {
+//   let ul = document.querySelector('.ul__contextmenu')
+//   ul.style.top = event.clientY + 'px'
+//   ul.style.left = event.clientX + 'px'
+//   document.querySelector('.ul__contextmenu').hidden = bool
+// }

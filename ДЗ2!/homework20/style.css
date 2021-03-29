@@ -4,6 +4,7 @@
   list-style-type: none;
   padding: 0px;
   z-index: 100;
+  box-shadow: 15px 15px 5px -5px rgba(0,0,0,.2);
 }
 .li__contextmenu{
   background-color: rgb(131, 131, 179);
