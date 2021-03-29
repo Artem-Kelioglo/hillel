@@ -1,0 +1,14 @@
+.ul__contextmenu{
+  position: fixed;
+  margin: 0px;
+  list-style-type: none;
+  padding: 0px;
+  z-index: 100;
+}
+.li__contextmenu{
+  background-color: rgb(131, 131, 179);
+  padding: 10px 15px;
+}
+.li__contextmenu:hover{
+  background-color: rgba(131, 131, 179, 0.61);
+}
