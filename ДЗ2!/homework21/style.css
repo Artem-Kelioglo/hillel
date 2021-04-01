@@ -1,6 +1,15 @@
+*{
+  font-size:large
+}
 span{
   margin: 5px;
+  background-color: bisque;
+  padding: 3px;
+  border-radius: 2px;
+  border: 1px solid black;
 }
 button{
   margin: 5px;
+  background-color: darkcyan;
+  border-radius: 4px;
 }
