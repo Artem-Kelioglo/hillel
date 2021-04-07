@@ -43,11 +43,41 @@
 // }
 // multiplyNumeric(menu);
 
-var foo = 10;
-function s() {
-  if (foo) {
-    var foo = 10;
-  }
-  console.log(foo);
+// var foo = 10;
+// function s() {
+//   if (foo) {
+//     var foo = 10;
+//   }
+//   console.log(foo);
+// }
+// s()
+// let set = new Set();
+
+// let john = { name: "John" };
+// let pete = { name: "Pete" };
+// let mary = { name: "Mary" };
+
+// // считаем гостей, некоторые приходят несколько раз
+// set.add(john);
+// set.add(pete);
+// set.add(mary);
+// set.add(john);
+// set.add(mary);
+// console.log(set)
+// // set хранит только 3 уникальных значения
+// alert(set.size); // 3
+
+// for (let user of set) {
+// console.log(user.name); // John (потом Pete и Mary)
+// }
+
+
+function unique(arr) {
+  console.log(new Set(arr))
+  return Array.from(new Set(arr));
 }
-s()
+let values = ["Hare", "Krishna", "Hare", "Krishna",
+  "Krishna", "Krishna", "Hare", "Hare", ":-O"
+];
+
+console.log(unique(values)); // Hare,Krishna,:-O
