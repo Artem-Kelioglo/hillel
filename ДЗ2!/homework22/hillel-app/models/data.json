@@ -1,0 +1,31 @@
+[{
+    "id": 1,
+    "firstname": "Taffy ",
+    "lastname": "Mozelle",
+    "age": 3
+  },
+  {
+    "id": 2,
+    "firstname": "Teriann",
+    "lastname": "Suzetta",
+    "age": 50
+  },
+  {
+    "id": 3,
+    "firstname": "Hildegaard",
+    "lastname": "Fry",
+    "age": 35
+  },
+  {
+    "id": 4,
+    "firstname": "Joy",
+    "lastname": "Granoff",
+    "age": 17
+  },
+  {
+    "id": 5,
+    "firstname": "Brana",
+    "lastname": "Argus",
+    "age": 30
+  }
+]

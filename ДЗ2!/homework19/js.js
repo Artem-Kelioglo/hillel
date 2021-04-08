@@ -32,7 +32,7 @@ let actions = {
     let texarea = td.querySelector('textarea')
     td.innerHTML = texarea.value
   },
-  cancel(target, zn) {
+  cancel(target) {
     let td = target.parentElement
     let texarea = td.querySelector('textarea')
     td.innerHTML = texarea.dataset.remove
