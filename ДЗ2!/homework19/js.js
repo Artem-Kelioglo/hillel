@@ -46,25 +46,40 @@ function searchClick() {
     target.innerHTML = '';
     target.append(fragment)
   } else if (target.tagName == 'BUTTON') {
-    let action = target.dataset.action
-    actions[action](target);
+    clickBtn(target)
   }
 }
+
+function clickBtn(target) {
+  let action = target.dataset.action
+  actions[action](target);
+}
+
+
 
 function createWindown(target) {
   let fragment = document.createDocumentFragment();
   let textarea = document.createElement('textarea');
-  let button = document.createElement('button');
-  let cales = document.createElement('button');
   textarea.dataset.remove = target.innerHTML
   textarea.value = target.innerHTML
+  let btns = createBtn()
+  fragment.append(textarea);
+  for (let i = 0; i < btns.length; i++) {
+    fragment.append(btns[i])
+  }
+  return fragment
+}
+
+function createBtn() {
+  let btns = []
+  let button = document.createElement('button');
+  let cales = document.createElement('button');
   button.innerHTML = 'сохранить';
   button.dataset.action = "save"
   cales.innerHTML = 'отмена';
   cales.dataset.action = "cancel"
-  fragment.append(textarea);
-  fragment.append(button);
-  fragment.append(cales);
-  return fragment
+  btns.push(button)
+  btns.push(cales)
+  return btns
 }
 table.addEventListener('click', searchClick);
