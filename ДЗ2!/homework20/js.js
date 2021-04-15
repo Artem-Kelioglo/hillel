@@ -54,7 +54,7 @@ window.onload = function () {
         li.className = 'li__contextmenu';
         li.innerHTML = title;
         li.addEventListener('click', actions[handler]);
-        // li.addEventListener('click',this.serchClick.bind(li, handler));------не уверен что правельно
+        
 
         fr.append(li);
       }
@@ -62,13 +62,6 @@ window.onload = function () {
 
       return fr
     }
-
-    // serchClick(handler) { 
-    //   let target = event.target
-    //   if (target.tagName == 'LI') {
-    //     actions[handler]()
-    //   }
-    // }
 
     makeMenu() {
       let cont = this.makeContainer();
