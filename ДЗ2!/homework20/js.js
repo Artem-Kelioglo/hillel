@@ -53,19 +53,22 @@ window.onload = function () {
         let li = document.createElement('li');
         li.className = 'li__contextmenu';
         li.innerHTML = title;
-        li.addEventListener('click', this.serchClick.bind(li, handler));
+        li.addEventListener('click', actions[handler]);
+        // li.addEventListener('click',this.serchClick.bind(li, handler));------не уверен что правельно
+
         fr.append(li);
       }
+
 
       return fr
     }
 
-    serchClick(handler) {
-      let target = event.target
-      if (target.tagName == 'LI') {
-        actions[handler]()
-      }
-    }
+    // serchClick(handler) { 
+    //   let target = event.target
+    //   if (target.tagName == 'LI') {
+    //     actions[handler]()
+    //   }
+    // }
 
     makeMenu() {
       let cont = this.makeContainer();
