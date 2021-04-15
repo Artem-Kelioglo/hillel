@@ -1,120 +1,135 @@
-function Counter() {
-  const counterIdsStr = 'counterIds';
-  const counterStr = 'counter';
-  const spanStr = 'span';
-  const btnsStr = 'buttons';
+window.onload = function () {
+  const actions = {
+    actionCopy() {
+      console.log('ActionCopy')
+    },
+    actionSaveAs() {
+      console.log('ActionSaveAs')
+    },
+    actionExit() {
+      console.log('ActionExit')
+    }
+  };
 
-  this.getterBtnsStr = () => { return btnsStr; }
-  this.getterSpanStr = () => { return spanStr; }
-  this.getterCounterStr = () => { return counterStr; }
-  this.getterCounterIds = () => { return counterIdsStr; }
-}
-
-Counter.prototype.makeContainer = function (id, className) {
-  const div = document.createElement('div');
-  id && div.setAttribute("id", id);
-  className && div.classList.add(className);
-  return div;
-};
-
-Counter.prototype.makeSpan = function (id, value) {
-  const span = document.createElement('span');
-  span.innerText = value ?? 0;
-  span.setAttribute("id", this.getStringId(this.getterSpanStr(), id));
-  return span;
-};
-
-Counter.prototype.makeClickButton = function (text, id, func) {
-  const btn = document.createElement('button');
-  btn.innerText = text;
-  id && (btn.dataset.id = id);
-  btn.addEventListener("click", func);
-  return btn;
-};
-
-Counter.prototype.incrementCounter = function (e) {
-  let id = e.target.dataset.id;
-  let counter = +localStorage.getItem(this.getStringId(this.getterCounterStr(), id));
-  counter++;
-  this.setValue(id, counter);
-};
-
-Counter.prototype.getStringId = function (name, id) {
-  return `${name}-${id}`;
-}
-
-Counter.prototype.addCounter = function () {
-  let ids = this.getCountersIds() ?? [];
-  let id = ids.length + 1;
-  ids.push(id);
-  localStorage.setItem(this.getterCounterIds(), JSON.stringify(ids));
-  let counterContainer = this.makeCounter(id, 0);
-  let buttons = document.getElementById(this.getterBtnsStr());
-  buttons.prepend(counterContainer);
-}
-
-Counter.prototype.makeCounter = function (id, value) {
-  const counterContainer = this.makeContainer(this.getStringId(this.getterCounterStr(), id), 'counter');
-  const span = this.makeSpan(id, value);
-  const incrementBtn = this.makeClickButton('+', id, this.incrementCounter.bind(this));
-  counterContainer.append(span);
-  counterContainer.append(incrementBtn);
-  return counterContainer;
-}
-
-Counter.prototype.clearCounters = function () {
-  let ids = this.getCountersIds();
-  ids.forEach(id => {
-      localStorage.setItem(this.getStringId(this.getterCounterStr(), id), 0);
-      document.getElementById(this.getStringId(this.getterSpanStr(), id)).innerText = 0;
-  });
-}
-
-Counter.prototype.setCounter = function () {
-  let id = +prompt('Введите Id:', 1);
-  let ids = this.getCountersIds();
-  if (ids.includes(id)) {
-      let value = +prompt('Введите Значение:', 1);
-      this.setValue(id, value);
-  } else {
-      alert('Неверный Id');
+  const data = {
+    name: 'menu',
+    items: [{
+        title: 'Copy',
+        handler: 'actionCopy'
+      },
+      {
+        title: 'SaveAs',
+        handler: 'actionSaveAs'
+      },
+      {
+        title: 'Exit',
+        handler: 'actionExit'
+      }
+    ]
   }
-}
 
-Counter.prototype.setValue = function (id, value) {
-  value = isNaN(value) ? 0 : value;
-  localStorage.setItem(this.getStringId(this.getterCounterStr(), id), value);
-  document.getElementById(this.getStringId(this.getterSpanStr(), id)).innerText = value;
-}
-
-Counter.prototype.getCountersIds = function () {
-  return JSON.parse(localStorage.getItem(this.getterCounterIds()));
-}
-
-Counter.prototype.makeСontrolBtns = function () {
-  const btnContainer = this.makeContainer(this.getterBtnsStr(), this.getterBtnsStr());
-  const addBtn = this.makeClickButton('Add', null, this.addCounter.bind(this));
-  const clearBtn = this.makeClickButton('Clear', null, this.clearCounters.bind(this));
-  const setBtn = this.makeClickButton('Set', null, this.setCounter.bind(this));
-  btnContainer.append(addBtn, clearBtn, setBtn);
-  return btnContainer;
-}
-
-Counter.prototype.initCounters = function () {
-  let ids = this.getCountersIds();
-  const container = this.makeContainer(null, 'counters');
-  const fragment = document.createDocumentFragment();
-
-  if (ids != null) {
-      ids.forEach(id => {
-          let counter = localStorage.getItem(this.getStringId(this.getterCounterStr(), id));
-          fragment.append(this.makeCounter(id, counter));
-      });
+  function MenuComponent(model = {}, actions = {}) {
+    this.model = model;
+    this.actions = actions;
+    this.contextMenu = {};
   }
-  const btnContainer = this.makeСontrolBtns();
-  container.append(fragment, btnContainer);
-  document.body.append(container);
-}
 
-const menu = new Counter();
-menu.initCounters();
+  MenuComponent.prototype.makeNavContainer = function () {
+    const div = document.createElement('div');
+    div.setAttribute("id", "context_menu");
+    div.classList.add('menu_block', 'position', 'hide');
+    return div;
+  };
+
+  MenuComponent.prototype.makeUlContainer = function () {
+    const ul = document.createElement('ul');
+    ul.classList.add('navigation');
+    return ul;
+  };
+
+
+  MenuComponent.prototype.makeButtons = function () {
+    const {
+      items
+    } = this.model;
+    const fragment = document.createDocumentFragment();
+
+    for (let i = 0; i < items.length; i++) {
+      const li = document.createElement('li');
+      const {
+        handler,
+        title
+      } = items[i];
+
+      li.addEventListener('click', actions[handler]);
+      li.classList.add("navigation__item");
+      li.innerHTML = title;
+      fragment.append(li);
+    }
+
+    return fragment;
+  };
+
+  MenuComponent.prototype.openMenu = function (e) {
+    const {
+      clientX,
+      clientY
+    } = e;
+    event.preventDefault();
+    this.setPosition(clientX, clientY);
+    this.showMenuOn();
+  }
+
+  MenuComponent.prototype.showMenuOn = function () {
+    if (this.contextMenu) {
+      this.contextMenu.classList.remove("hide");
+    }
+  }
+
+  MenuComponent.prototype.setPosition = function (clientX, clientY) {
+    let width = this.contextMenu.clientWidth;
+    let heigth = this.contextMenu.clientHeight;
+    let offSetX = window.innerWidth - width;
+    let offsetY = window.innerHeight - heigth;
+
+    if (clientX > offSetX) {
+      clientX = offSetX;
+    }
+
+    if (clientY > offsetY) {
+      clientY = offsetY;
+    }
+
+    if (this.contextMenu) {
+      this.contextMenu.style.left = `${clientX}px`;
+      this.contextMenu.style.top = `${clientY}px`;
+    }
+  }
+
+  MenuComponent.prototype.showMenuOff = function (target) {
+    if (this.contextMenu && target != this.contextMenu) {
+      this.contextMenu.classList.add("hide");
+    }
+  }
+
+  MenuComponent.prototype.makeMenu = function () {
+    const navContainer = this.makeNavContainer();
+    const ulContainer = this.makeUlContainer();
+    const menuButtons = this.makeButtons();
+    ulContainer.append(menuButtons);
+    navContainer.append(ulContainer);
+
+    document.addEventListener("contextmenu", this.openMenu.bind(this));
+
+    document.addEventListener("click", this.showMenuOff.bind(this));
+
+
+
+    document.body.append(navContainer);
+    this.contextMenu = document.querySelector('#context_menu');
+  }
+
+  const menu = new MenuComponent(data, actions);
+  menu.makeMenu();
+  console.log(menu)
+}
