@@ -54,7 +54,7 @@ window.onload = function () {
         li.className = 'li__contextmenu';
         li.innerHTML = title;
         li.addEventListener('click', actions[handler]);
-        
+
 
         fr.append(li);
       }
@@ -76,13 +76,14 @@ window.onload = function () {
       let ul = this.menu
       let widthWin = document.documentElement.clientWidth;
       let heightWin = document.documentElement.clientHeight;
-      let widrhElem = ul.offsetWidth
-      let heightElem = ul.offsetHeight
+
 
       if (bool) {
         ul.hidden = bool
       } else {
         ul.hidden = bool
+        let widrhElem = ul.offsetWidth
+        let heightElem = ul.offsetHeight
         let ulY = event.clientY + heightElem
         let ulX = event.clientX + widrhElem
 
