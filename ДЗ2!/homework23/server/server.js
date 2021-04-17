@@ -40,16 +40,16 @@ app.post("/form", (req, res) => {
   read({
     url: "./users/users.json",
     callback: (error, paylad) => {
-      let a = JSON.parse(paylad);
-      let b = JSON.parse(req.body);
-      let filId = undefined;
-      for (let i = 0; i < a.length; i++) {
-        if (a[i].Login == b.Login && a[i].Password == b.Password) {
-          filId = a[i].id;
-          res.status(200).send(`${filId}`);
+      let usersData = JSON.parse(paylad);
+      let userInputData = JSON.parse(req.body);
+      let userId = undefined;
+      for (let i = 0; i < usersData.length; i++) {
+        if (usersData[i].Login == userInputData.Login && usersData[i].Password == userInputData.Password) {
+          userId = usersData[i].id;
+          res.status(200).send(`${userId}`);
         }
       }
-      if (!filId) {
+      if (!userId) {
         res.status(401).send("Not Found");
       }
     },
@@ -69,9 +69,6 @@ app.get('/goods/:id', function (req, res) {
       res.status(200).send(JSON.parse(payload));
     }
   })
-  // fs.readFile(`./goods/${id}.json`, "utf-8", function (error, payload) {
-  //   res.send(payload);
-  // });
 });
 
 app.listen(port, () => {

@@ -14,7 +14,7 @@ function sendAjax({
     console.log('error');
   };
 
-  xhr.open(method, url); // open(method, url) -> method ->> get, post, url -> http://localhost:300
+  xhr.open(method, url); 
 
   xhr.send(body)
 }

@@ -8,26 +8,18 @@ window.onload = function () {
       method: 'POST',
       url: "http://localhost:3000/form",
       success: function (response) {
-        console.log(response)
         if (response == "Not Found") {
-          let d = document.createElement("div");
-          d.innerHTML = "Пользователь не найден"
-          form.append(d)
+          let warning = document.createElement("div");
+          warning.innerHTML = "Пользователь не найден"
+          form.append(warning)
           setTimeout(() => {
-            d.innerHTML = ''
+            warning.innerHTML = ''
           }, 1000)
         } else {
           window.location.href = `http://localhost:3000/goods/${response}`;
         }
 
       },
-      // error: function (status, message) {
-      //   if (status == 401) {
-      //     let d = document.createElement("div");
-      //     d.innerHTML = "Ощибка"
-      //     form.append(d)
-      //   }
-      // },
       body: paylod
     })
   })
