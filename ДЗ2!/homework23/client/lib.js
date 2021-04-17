@@ -15,8 +15,8 @@ function sendAjax({
   };
 
   xhr.open(method, url); // open(method, url) -> method ->> get, post, url -> http://localhost:300
- 
-  method.toLowerCase() === 'post' ? xhr.send(body) : xhr.send()
+
+  xhr.send(body)
 }
 
 

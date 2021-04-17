@@ -1,18 +1,34 @@
 window.onload = function () {
-  console.log(sendAjax)
   const form = document.querySelector(".form")
-  console.log(form)
   form.addEventListener('submit', event => {
     event.preventDefault();
     const paylod = serializeForm(form)
-    console.log(paylod)
+
     sendAjax({
       method: 'POST',
-      url: "http://localhost:3000/foo",
+      url: "http://localhost:3000/form",
       success: function (response) {
         console.log(response)
+        if (response == "Not Found") {
+          let d = document.createElement("div");
+          d.innerHTML = "Пользователь не найден"
+          form.append(d)
+          setTimeout(() => {
+            d.innerHTML = ''
+          }, 1000)
+        } else {
+          window.location.href = `http://localhost:3000/goods/${response}`;
+        }
+
       },
-      body:paylod
+      // error: function (status, message) {
+      //   if (status == 401) {
+      //     let d = document.createElement("div");
+      //     d.innerHTML = "Ощибка"
+      //     form.append(d)
+      //   }
+      // },
+      body: paylod
     })
   })
 };
