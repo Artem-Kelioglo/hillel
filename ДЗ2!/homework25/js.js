@@ -22,31 +22,21 @@ window.onload = function () {
         console.log(1);
         return id;
       },
-      (i) => {
+      (id) => {
         console.log(2);
         return id;
       }
     )
-    .then(
-      (id) => {
-        console.log(3);
-        throw Error(id);
-      },
-      () => {
-        console.log(4);
+    .then((id) => {
+      console.log(3);
+      throw Error(id);
+    })
+    .catch((error) => {
+      console.log(6);
+      if (+error.message % 2 == 0) {
+        throw Error("error");
       }
-    )
-    .then(
-      () => {
-        console.log(5);
-      },
-      (error) => {
-        console.log(6);
-        if (+error.message % 2 == 0) {
-          return i;
-        }
-      }
-    )
+    })
     .then(
       () => {
         console.log(7);
@@ -55,21 +45,11 @@ window.onload = function () {
         console.log(8);
       }
     )
-    .then(
-      () => {
-        console.log(9);
-        throw Error("error");
-      },
-      () => {
-        console.log(10);
-      }
-    )
-    .then(
-      () => {
-        console.log(11);
-      },
-      () => {
-        console.log(12);
-      }
-    );
+    .then(() => {
+      console.log(9);
+      throw Error("error");
+    })
+    .catch(() => {
+      console.log(12);
+    });
 };
