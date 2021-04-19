@@ -54,7 +54,7 @@ app.post("/form", (req, res) => {
       }
     },
   });
-});
+} );
 
 const read = ({
   url,
