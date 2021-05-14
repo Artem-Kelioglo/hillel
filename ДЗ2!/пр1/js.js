@@ -1,135 +1,71 @@
 window.onload = function () {
-  const actions = {
-    actionCopy() {
-      console.log('ActionCopy')
-    },
-    actionSaveAs() {
-      console.log('ActionSaveAs')
-    },
-    actionExit() {
-      console.log('ActionExit')
-    }
-  };
+    Vue.component('diagram-item', {
+        model: {
+            prop: 'height',
+            event: 'change'
+        },
+        props: {
+            height: Number,
+            color: String,
+            id: Number,
+        },
+        template: '#column',
+        methods: {
+            change: function (event) {
+                let value = +event.target.value;
+                this.saveToLocatlStorage(value);
+                this.$emit('change', value)
+            },
+            saveToLocatlStorage(value) {
+                let item = JSON.parse(localStorage.getItem(`${this.$parent.itemIdString}${this.id}`));
+                item.height = value;
+                localStorage.setItem(`${this.$parent.itemIdString}${this.id}`, JSON.stringify(item));
+            }
+        }
+    });
 
-  const data = {
-    name: 'menu',
-    items: [{
-        title: 'Copy',
-        handler: 'actionCopy'
-      },
-      {
-        title: 'SaveAs',
-        handler: 'actionSaveAs'
-      },
-      {
-        title: 'Exit',
-        handler: 'actionExit'
-      }
-    ]
-  }
+    const app = new Vue({
+        el: '#diagrams',
+        data: {
+            items: [],
+            itemIdsString: 'ItemIds',
+            itemIdString: 'Item-'
+        },
+        mounted: function () {
+            let ids = JSON.parse(localStorage.getItem(this.itemIdsString));
+            if (ids === null) {
+                ids = [];
+                for (let i = 0; i < 8; i++) {
+                    ids.push(i);
+                    let color = this.getRandomColor();
+                    let height = this.getRandomInt(100, 300);
+                    let obj = { id: i, height: height, color: color };
+                    this.items.push(obj);
+                    localStorage.setItem(`${this.itemIdString}${i}`, JSON.stringify(obj));
+                }
+                localStorage.setItem(this.itemIdsString, JSON.stringify(ids));
+            }
+            else {
+                ids.forEach(id => {
+                    this.items.push(JSON.parse(localStorage.getItem(`${this.itemIdString}${id}`)));
+                });
+            }
 
-  function MenuComponent(model = {}, actions = {}) {
-    this.model = model;
-    this.actions = actions;
-    this.contextMenu = {};
-  }
+        },
+        methods: {
+            getRandomInt: function (min, max) {
+                min = Math.ceil(min);
+                max = Math.floor(max);
+                return Math.floor(Math.random() * (max - min) + min);
+            },
+            getRandomColor: function () {
+                return `#${(0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1, 6)}`;
+            },
+            sort: function () {
+                let ids = this.items.sort((a, b) => (a.height > b.height) ? 1 : -1).map(x => x.id);
+                localStorage.setItem(this.itemIdsString, JSON.stringify(ids));
+            }
+        }
 
-  MenuComponent.prototype.makeNavContainer = function () {
-    const div = document.createElement('div');
-    div.setAttribute("id", "context_menu");
-    div.classList.add('menu_block', 'position', 'hide');
-    return div;
-  };
-
-  MenuComponent.prototype.makeUlContainer = function () {
-    const ul = document.createElement('ul');
-    ul.classList.add('navigation');
-    return ul;
-  };
-
-
-  MenuComponent.prototype.makeButtons = function () {
-    const {
-      items
-    } = this.model;
-    const fragment = document.createDocumentFragment();
-
-    for (let i = 0; i < items.length; i++) {
-      const li = document.createElement('li');
-      const {
-        handler,
-        title
-      } = items[i];
-
-      li.addEventListener('click', actions[handler]);
-      li.classList.add("navigation__item");
-      li.innerHTML = title;
-      fragment.append(li);
-    }
-
-    return fragment;
-  };
-
-  MenuComponent.prototype.openMenu = function (e) {
-    const {
-      clientX,
-      clientY
-    } = e;
-    event.preventDefault();
-    this.setPosition(clientX, clientY);
-    this.showMenuOn();
-  }
-
-  MenuComponent.prototype.showMenuOn = function () {
-    if (this.contextMenu) {
-      this.contextMenu.classList.remove("hide");
-    }
-  }
-
-  MenuComponent.prototype.setPosition = function (clientX, clientY) {
-    let width = this.contextMenu.clientWidth;
-    let heigth = this.contextMenu.clientHeight;
-    let offSetX = window.innerWidth - width;
-    let offsetY = window.innerHeight - heigth;
-
-    if (clientX > offSetX) {
-      clientX = offSetX;
-    }
-
-    if (clientY > offsetY) {
-      clientY = offsetY;
-    }
-
-    if (this.contextMenu) {
-      this.contextMenu.style.left = `${clientX}px`;
-      this.contextMenu.style.top = `${clientY}px`;
-    }
-  }
-
-  MenuComponent.prototype.showMenuOff = function (target) {
-    if (this.contextMenu && target != this.contextMenu) {
-      this.contextMenu.classList.add("hide");
-    }
-  }
-
-  MenuComponent.prototype.makeMenu = function () {
-    const navContainer = this.makeNavContainer();
-    const ulContainer = this.makeUlContainer();
-    const menuButtons = this.makeButtons();
-    ulContainer.append(menuButtons);
-    navContainer.append(ulContainer);
-
-    document.addEventListener("contextmenu", this.openMenu.bind(this));
-
-    document.addEventListener("click", this.showMenuOff.bind(this));
-
-
-
-    document.body.append(navContainer);
-    this.contextMenu = document.querySelector('#context_menu');
-  }
-
-  const menu = new MenuComponent(data, actions);
-  menu.makeMenu();
-  console.log(menu)
-}
+    })
+};
