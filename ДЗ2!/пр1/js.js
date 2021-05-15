@@ -33,6 +33,7 @@ window.onload = function () {
         },
         mounted: function () {
             let ids = JSON.parse(localStorage.getItem(this.itemIdsString));
+          
             if (ids === null) {
                 ids = [];
                 for (let i = 0; i < 8; i++) {
@@ -50,7 +51,6 @@ window.onload = function () {
                     this.items.push(JSON.parse(localStorage.getItem(`${this.itemIdString}${id}`)));
                 });
             }
-
         },
         methods: {
             getRandomInt: function (min, max) {
