@@ -44,17 +44,23 @@ body {
 #picture-block,
 #text-block {
   display: inline-block;
-  width: 840px;
-  height: 100%;
+  
+  max-width: 840px;
+  // height: 100%;
 }
 #auto {
-  position: absolute;
+  // position: absolute;
+  // top: -343px;
+  // right: -147px;
+  position: relative;
   top: -343px;
-  right: -147px;
+  right: 130px;
+
 }
 #picture-block {
   position: relative;
   overflow: hidden;
+  height: inherit;
   // max-width: 841px;
 }
 #logo {
@@ -65,7 +71,11 @@ body {
   left: 59px;
 }
 #text-block {
-  position: relative;
+  // position: relative;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: space-between; */
+  gap: 147px;
 }
 .page-content {
   padding: 55px 60px 0 116px;
@@ -178,7 +188,7 @@ body {
   }
 }
 .text-info {
-  width: 530px;
+  max-width: 530px;
   line-height: 38px;
   padding-left: 3px;
 }
@@ -298,9 +308,10 @@ body {
   }
 }
 .color-block {
-  width: 840px;
+  // width: 840px;
+  width: 100%;
   height: 155px;
   background-color: #ff4f00;
-  position: absolute;
-  bottom: 0;
+  // position: absolute;
+  // bottom: 0;
 }
